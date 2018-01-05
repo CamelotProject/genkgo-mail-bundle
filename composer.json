@@ -12,6 +12,7 @@
         "symfony/http-kernel": "^3.4 || ^4.0"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.9 || ^3.0",
         "symfony/framework-bundle": "^3.4 || ^4.0"
     },
     "authors": [
@@ -24,5 +25,11 @@
         "psr-4": {
             "Camelot\\GenkgoMailBundle\\": "src"
         }
+    },
+    "scripts": {
+        "lint": "vendor/bin/php-cs-fixer fix --verbose --config=.php_cs.dist src/ tests/"
+    },
+    "scripts-descriptions": {
+        "lint": "Run PHP-CS-Fixer and make changes to comply with code style standards"
     }
 }

@@ -1,0 +1,36 @@
+<?php
+
+declare(strict_types=1);
+
+if (!\file_exists(__DIR__ . '/src')) {
+    exit(0);
+}
+
+return PhpCsFixer\Config::create()
+    ->setRules([
+        '@Symfony' => true,
+        '@Symfony:risky' => true,
+        '@PHP71Migration:risky' => true,
+        '@PHPUnit60Migration:risky' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'compact_nullable_typehint' => true,
+        'concat_space' => ['spacing' => 'one'],
+        'declare_strict_types' => true,
+        'multiline_whitespace_before_semicolons' => ['strategy' => 'new_line_for_chained_calls'],
+        'native_function_invocation' => true,
+        'php_unit_strict' => true,
+        'ordered_class_elements' => true,
+        'yoda_style' => false,
+        'header_comment' => [
+            'header' => <<<'EOD'
+This file is part of the Camelot Genkgo Mail bundle.
+
+(c) Gawain Lynch <gawain.lynch@gmail.com>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+EOD
+        ],
+    ])
+    ->setRiskyAllowed(true)
+;
