@@ -13,8 +13,14 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.9 || ^3.0",
+        "matthiasnoback/symfony-dependency-injection-test": "^2.3",
+        "nyholm/symfony-bundle-test": "^1.2",
         "phpstan/phpstan": "^0.9",
-        "symfony/framework-bundle": "^3.4 || ^4.0"
+        "predis/predis": "^1.1",
+        "snc/redis-bundle": "^2.0",
+        "symfony/framework-bundle": "^3.4 || ^4.0",
+        "symfony/phpunit-bridge": "^3.4 || ^4.0",
+        "symfony/process": "^3.4 || ^4.0"
     },
     "authors": [
         {
@@ -25,6 +31,11 @@
     "autoload": {
         "psr-4": {
             "Camelot\\GenkgoMailBundle\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Camelot\\GenkgoMailBundle\\Tests\\": "tests"
         }
     },
     "scripts": {

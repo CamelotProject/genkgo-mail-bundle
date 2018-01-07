@@ -1,0 +1,58 @@
+language: php
+
+sudo: false
+dist: trusty
+
+php:
+  - 7.0
+  - 7.1
+  - 7.2
+  - nightly
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: nightly
+
+env:
+  global:
+    - SYMFONY_PHPUNIT_DIR="$HOME/symfony-bridge/.phpunit"
+
+cache:
+  directories:
+    - $COMPOSER_CACHE_DIR
+    - $HOME/symfony-bridge/.phpunit
+    - cs_cache
+    - vendor
+
+before_install:
+  - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || phpenv config-rm xdebug.ini'
+  - composer self-update
+
+install:
+  - composer install
+  - ./vendor/bin/simple-phpunit install
+
+script:
+  # PHPUnit
+  - vendor/bin/simple-phpunit --coverage-clover=coverage.xml
+  # PHP CodeSniffer
+  - vendor/bin/phpcs -p --report=full
+  # PHP CS Fixer (if compatible)
+  - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || ./vendor/bin/php-cs-fixer fix -v --diff --dry-run --cache-file cs_cache/php_cs_fixer'
+  # Check YAML & Twig files contain no syntax errors
+  - ./bin/console lint:yaml config
+  - ./bin/console lint:yaml translations
+  - ./bin/console lint:twig templates
+  # Check dependencies with known security vulnerabilities
+  - ./bin/console security:check --end-point=http://security.sensiolabs.org/check_lock
+  #  Check composer.json & composer.lock files are valid
+  - composer validate --strict
+  # Check Doctrine's mapping configuration is valid
+  - ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+  # PHP static analysis
+  - ./vendor/bin/phpstan analyse -c phpstan.neon --level 7 src/ tests/
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+

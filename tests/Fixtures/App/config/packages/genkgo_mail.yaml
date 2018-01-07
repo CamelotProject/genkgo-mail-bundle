@@ -1,0 +1,11 @@
+genkgo_mail:
+    url: '%env(MAILER_URL)%'
+    transport:
+        service_id: Genkgo\Mail\Transport\SmtpTransport
+        retry_count: 1
+    queue:
+        memory: true
+        file:
+            enabled: true
+        redis:
+            enabled: true
